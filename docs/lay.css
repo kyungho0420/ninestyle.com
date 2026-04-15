@@ -11,24 +11,18 @@
 }
 
 .damso-header__title {
-    font-size: clamp(2rem, 8vw, 5rem);
-    letter-spacing: 0.2em;
+    margin-left: 0.1em;
+    letter-spacing: 0.1em;
+    font-size: clamp(3rem, 2rem + 4vw, 5rem);
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 5px 20px rgba(0, 0, 0, 0.5);
-    margin-bottom: 0.5rem;
 }
 
 .damso-header__description {
-    font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+    font-size: clamp(0.6rem, 0.4rem + 0.5vw, 0.9rem);
     letter-spacing: 0.5em;
     opacity: 0.8;
     font-weight: 300;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-}
-
-/* Action Buttons - Refined Dark Glass Style */
-.damso-action-group {
-    margin-top: 4rem;
-    gap: 1.5rem;
 }
 
 .damso-action-group__item {
@@ -37,16 +31,15 @@
     color: rgba(255, 255, 255, 0.7);
     width: 3.5rem;
     height: 3.5rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
 
 .damso-action-group__item:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: #FFF;
-    transform: translateY(-5px);
 }
 
 .damso-action-group__item .material-symbols-outlined {

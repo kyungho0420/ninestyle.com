@@ -81,7 +81,9 @@ const faintNineGlitchEffect = {
     drawNine(x, y, rgbString, alpha, offset = 0) {
         this.ctx.save();
         this.ctx.globalAlpha = alpha;
-        this.ctx.filter = 'blur(40px)';
+        // DPR 보정: 모바일의 높은 DPR로 인해 blur가 희석되는 현상 방지
+        const dpr = window.devicePixelRatio || 1;
+        this.ctx.filter = `blur(${40 * dpr}px)`;
 
         const gradient = this.ctx.createLinearGradient(
             x, y - this.fontSize / 2,
