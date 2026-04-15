@@ -46,7 +46,7 @@ const faintNineGlitchEffect = {
         wrapper.appendChild(this.canvas);
 
         this.ctx = this.canvas.getContext('2d', { alpha: true });
-        this.colorRGB = '255, 255, 255'; // Changed to pure white for Nine Style
+        this.colorRGB = '255, 255, 255';
         this.fontSize = 1100;
 
         this.isGlitching = false;
@@ -74,7 +74,6 @@ const faintNineGlitchEffect = {
         this.logicalWidth = rect.width;
         this.logicalHeight = rect.height;
 
-        // 화면 너비에 따라 폰트 크기 유동적 조절 (너무 작아지지도, 너무 크게 유지되지도 않게)
         this.fontSize = Math.min(1100, 600 + (rect.width * 0.25));
 
         this.ctx.textAlign = 'center';
@@ -84,7 +83,6 @@ const faintNineGlitchEffect = {
     drawNine(x, y, rgbString, alpha, offset = 0) {
         this.ctx.save();
         this.ctx.globalAlpha = alpha;
-        // DPR 보정: 모바일의 높은 DPR로 인해 blur가 희석되는 현상 방지
         const dpr = window.devicePixelRatio || 1;
         this.ctx.filter = `blur(${40 * dpr}px)`;
 
@@ -120,18 +118,16 @@ const faintNineGlitchEffect = {
     },
 
     drawNoise() {
-        if (!this.isGlitching || Math.random() < 0.3) return; // 확률 상향
+        if (!this.isGlitching || Math.random() < 0.3) return;
         const w = this.logicalWidth;
         const h = this.logicalHeight;
 
-        // 1. 가로 스캔라인 노이즈
         for (let i = 0; i < 6; i++) {
             const lineY = Math.random() * h;
             this.ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.15})`;
             this.ctx.fillRect(0, lineY, w, Math.random() * 1.5);
         }
 
-        // 2. 디지털 블록 노이즈
         for (let i = 0; i < 10; i++) {
             const bx = Math.random() * w;
             const by = Math.random() * h;
@@ -141,7 +137,6 @@ const faintNineGlitchEffect = {
             this.ctx.fillRect(bx, by, bw, bh);
         }
 
-        // 3. 점 노이즈 (지글지글함 추가)
         for (let i = 0; i < 20; i++) {
             this.ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.2})`;
             this.ctx.fillRect(Math.random() * w, Math.random() * h, 1, 1);
