@@ -12,7 +12,7 @@
 }
 
 .damso-header__title {
-    font-size: clamp(4rem, 3rem + 5vw, 7rem);
+    font-size: clamp(6rem, 5.64rem + 1.82vw, 7rem);
     font-family: "Anton", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -20,7 +20,7 @@
 }
 
 .damso-header__description {
-    font-size: clamp(0.8rem, 1vw, 1rem);
+    font-size: clamp(0.7rem, 0.59rem + 0.55vw, 1rem);
     letter-spacing: 0.5em;
     margin-left: 0.5em;
 }
@@ -47,5 +47,5 @@
 }
 
 .damso-canvas {
-    filter: blur(1px) contrast(1.2);
+    filter: blur(2px) contrast(2);
 }

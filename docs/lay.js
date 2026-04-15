@@ -136,7 +136,7 @@ const faintNineGlitchEffect = {
         this.ctx.clearRect(0, 0, this.logicalWidth, this.logicalHeight);
 
         const x = this.logicalWidth / 2;
-        const y = this.logicalHeight * 0.58;
+        const y = this.logicalHeight * 0.55;
 
         if (this.isGlitching) {
             this.flickerAlpha = Math.random() > 0.8 ? Math.random() * 0.3 : 0.6;
@@ -155,7 +155,6 @@ const faintNineGlitchEffect = {
                 this.calmDuration = Math.random() * 300 + 100;
             }
         } else {
-            this.drawNine(x, y, this.colorRGB, 0.5);
             this.calmDuration--;
             if (this.calmDuration <= 0) {
                 this.isGlitching = true;
