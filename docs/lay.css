@@ -49,3 +49,7 @@
 .damso-canvas {
     filter: blur(2px) contrast(2);
 }
+
+.damso-modal__content {
+    border :0;
+}
