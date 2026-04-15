@@ -120,14 +120,31 @@ const faintNineGlitchEffect = {
     },
 
     drawNoise() {
-        if (!this.isGlitching || Math.random() < 0.6) return;
+        if (!this.isGlitching || Math.random() < 0.3) return; // 확률 상향
         const w = this.logicalWidth;
         const h = this.logicalHeight;
 
-        for (let i = 0; i < 3; i++) {
+        // 1. 가로 스캔라인 노이즈
+        for (let i = 0; i < 6; i++) {
             const lineY = Math.random() * h;
-            this.ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.1})`;
-            this.ctx.fillRect(0, lineY, w, 1);
+            this.ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.15})`;
+            this.ctx.fillRect(0, lineY, w, Math.random() * 1.5);
+        }
+
+        // 2. 디지털 블록 노이즈
+        for (let i = 0; i < 10; i++) {
+            const bx = Math.random() * w;
+            const by = Math.random() * h;
+            const bw = Math.random() * 40;
+            const bh = Math.random() * 15;
+            this.ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.12})`;
+            this.ctx.fillRect(bx, by, bw, bh);
+        }
+
+        // 3. 점 노이즈 (지글지글함 추가)
+        for (let i = 0; i < 20; i++) {
+            this.ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.2})`;
+            this.ctx.fillRect(Math.random() * w, Math.random() * h, 1, 1);
         }
     },
 
@@ -135,17 +152,21 @@ const faintNineGlitchEffect = {
         if (!this.canvas) return;
         this.ctx.clearRect(0, 0, this.logicalWidth, this.logicalHeight);
 
-        const x = this.logicalWidth / 2;
-        const y = this.logicalHeight * 0.55;
+        const x = this.logicalWidth * .7;
+        const y = this.logicalHeight * .5;
 
         if (this.isGlitching) {
-            this.flickerAlpha = Math.random() > 0.8 ? Math.random() * 0.3 : 0.6;
-            this.drawNine(x, y, this.colorRGB, this.flickerAlpha);
+            // 미세 진동 (Jitter)
+            const jX = (Math.random() - 0.5) * 4;
+            const jY = (Math.random() - 0.5) * 4;
+
+            this.flickerAlpha = Math.random() > 0.8 ? Math.random() * 0.1 + 0.2 : 0.3;
+            this.drawNine(x + jX, y + jY, this.colorRGB, this.flickerAlpha);
 
             const move = (Math.random() - 0.5) * 40;
             if (Math.random() > 0.4) {
-                this.drawNine(x + move, y, '255, 50, 50', 0.2, move);
-                this.drawNine(x - move, y, '50, 50, 255', 0.2, -move);
+                this.drawNine(x + jX + move, y + jY, '255, 50, 50', 0.2, move);
+                this.drawNine(x + jX - move, y + jY, '50, 50, 255', 0.2, -move);
             }
 
             this.drawNoise();
@@ -155,10 +176,12 @@ const faintNineGlitchEffect = {
                 this.calmDuration = Math.random() * 300 + 100;
             }
         } else {
+            this.drawNine(x, y, this.colorRGB, 0.30);
+            
             this.calmDuration--;
             if (this.calmDuration <= 0) {
                 this.isGlitching = true;
-                this.glitchDuration = Math.random() * 50 + 80;
+                this.glitchDuration = Math.random() * 50 + 20;
             }
         }
 
