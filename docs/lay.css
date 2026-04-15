@@ -8,15 +8,15 @@
 .damso-header__content {
     z-index: 10;
     mix-blend-mode: hard-light;
+    padding-inline: 3em;
 }
 
 .damso-header__title {
     font-size: clamp(4rem, 3rem + 5vw, 7rem);
-    font-family: 'Lato';
-}
-
-.damso-header__title span {
-    font-weight: 100;
+    font-family: "Anton", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--damso-color-accent) !important;
 }
 
 .damso-header__description {
