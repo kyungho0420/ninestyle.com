@@ -1,0 +1,12 @@
+{
+    "_default": {
+        "site_title": "NINE STYLE",
+        "home_title": "NINE STYLE",
+        "home_desc": "CREATIVE STUDIO FOR BRANDS"
+    },
+    "ko": {
+        "site_title": "나인스타일",
+        "home_title": "나인스타일",
+        "home_desc": "브랜드를 위한 크리에이티브 스튜디오"
+    }
+}

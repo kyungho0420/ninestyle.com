@@ -1,0 +1,58 @@
+.damso-header {
+    background-color: #000;
+    background-image: url("https://cdn.dam.so/_image/css/bg-tp2-black.png");
+    background-repeat: repeat;
+    background-size: auto;
+}
+
+.damso-header__content {
+    z-index: 10;
+    mix-blend-mode: hard-light;
+}
+
+.damso-header__title {
+    font-size: clamp(2rem, 8vw, 5rem);
+    letter-spacing: 0.2em;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 5px 20px rgba(0, 0, 0, 0.5);
+    margin-bottom: 0.5rem;
+}
+
+.damso-header__description {
+    font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+    letter-spacing: 0.5em;
+    opacity: 0.8;
+    font-weight: 300;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Action Buttons - Refined Dark Glass Style */
+.damso-action-group {
+    margin-top: 4rem;
+    gap: 1.5rem;
+}
+
+.damso-action-group__item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    width: 3.5rem;
+    height: 3.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.damso-action-group__item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFF;
+    transform: translateY(-5px);
+}
+
+.damso-action-group__item .material-symbols-outlined {
+    font-size: 1.4rem;
+}
+
+.damso-canvas {
+    filter: blur(1px) contrast(1.2);
+}
