@@ -74,6 +74,9 @@ const faintNineGlitchEffect = {
         this.logicalWidth = rect.width;
         this.logicalHeight = rect.height;
 
+        // 화면 너비에 따라 폰트 크기 유동적 조절 (너무 작아지지도, 너무 크게 유지되지도 않게)
+        this.fontSize = Math.min(1100, 600 + (rect.width * 0.25));
+
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
     },
