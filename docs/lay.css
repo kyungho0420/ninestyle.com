@@ -23,6 +23,7 @@
     font-size: clamp(0.7rem, 0.59rem + 0.55vw, 1rem);
     letter-spacing: 0.5em;
     margin:10px 0 0 0.5em;
+    line-height: 1.2em;
 }
 
 .damso-action-group__item {
