@@ -1,56 +1,178 @@
-.damso-header {
-    background-color: #000;
-    background-image: url("https://cdn.dam.so/_image/css/bg-tp1-black.png");
-    background-repeat: repeat;
-    background-size: auto;
+/**
+ * Nine Style - Page Refactoring V4
+ * Design Theme: Modern Deep Indigo & Vibrant Pink
+ */
+
+/* =================================================================
+   1. Brand Identity & Variable Overrides
+================================================================= */
+:root {
+    /* Brand Colors (Overriding Core variables where necessary) */
+    --damso-color-primary: hsl(250, 40%, 50%);
+    --damso-color-accent: hsl(330, 80%, 60%);
+    --damso-color-accent-2: hsl(25, 90%, 65%);
+    
+    /* Layout Tokens */
+    --damso-border-radius: 12px;
 }
 
-.damso-header__content {
-    z-index: 10;
-    mix-blend-mode: hard-light;
-    padding-inline: 3em;
+/* =================================================================
+   2. Typography & Icons
+================================================================= */
+body {
+    font-family: 'Noto Sans KR', 'Poppins', sans-serif;
+}
+
+.damso-nav__logo,
+.damso-header__title,
+.damso-section h2,
+.damso-card__title {
+    font-family: 'Poppins', 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+}
+
+.damso-section h2 .material-symbols-outlined {
+    background: linear-gradient(45deg, var(--damso-color-accent), var(--damso-color-primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* =================================================================
+   3. Component Enhancements (BEM)
+================================================================= */
+
+/* --- Custom Header for Nine Style --- */
+.damso-header {
+    background-color: var(--damso-color-bg-dark);
+    position: relative;
+    overflow: hidden;
+    min-height: 80vh;
 }
 
 .damso-header__title {
-    font-size: clamp(6rem, 5.64rem + 1.82vw, 7rem);
-    font-family: "Anton", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    color: var(--damso-color-accent) !important;
+    font-size: clamp(3rem, 10vw, 8rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 0.2em;
+    background: linear-gradient(to bottom, #fff, #ccc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .damso-header__description {
-    font-size: clamp(0.7rem, 0.59rem + 0.55vw, 1rem);
-    letter-spacing: 0.5em;
-    margin:10px 0 0 0.5em;
-    line-height: 1.2em;
-}
-
-.damso-action-group__item {
-    background: rgba(255, 255, 255, 0.05);
-    border: 0;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
     color: rgba(255, 255, 255, 0.7);
-    width: 3.5rem;
-    height: 3.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    font-weight: 400;
 }
 
-.damso-action-group__item:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border: 0;
-    color: #FFF;
+/* --- Card Variations --- */
+.damso-card--google {
+    border: 2px solid transparent;
+    background-image: linear-gradient(var(--damso-color-bg-card), var(--damso-color-bg-card)),
+                      linear-gradient(to right, #4285F4, #DB4437, #F4B400, #0F9D58);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
 }
 
-.damso-action-group__item .material-symbols-outlined {
-    font-size: 1.4rem;
+.damso-card--cloudflare {
+    border: 2px solid transparent;
+    background-image: linear-gradient(var(--damso-color-bg-card), var(--damso-color-bg-card)),
+                      linear-gradient(to right, #F38020, #F6821F, #FAAE40, #FDB913);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
 }
 
-.damso-canvas {
-    filter: blur(2px) contrast(2);
+/* --- Product Specs Table --- */
+.damso-specs-table {
+    margin-top: 1.5rem;
+    width: 100%;
 }
 
-.damso-modal__content {
-    border :0;
+.damso-specs-category {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--damso-color-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-bottom: 0.5rem;
+    margin-top: 1.5rem;
+    border-bottom: 1px solid var(--damso-color-border);
+}
+
+.damso-specs-category:first-child {
+    margin-top: 0;
+}
+
+.damso-specs-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    font-size: 0.95rem;
+}
+
+.damso-specs-label {
+    color: var(--damso-color-text-main);
+}
+
+.damso-specs-value {
+    color: var(--damso-color-text-dim);
+    font-weight: 500;
+}
+
+/* --- Price Info --- */
+.damso-price-info {
+    margin: 1.5rem -1.5rem -1.5rem -1.5rem;
+    padding: 1.25rem 1.5rem;
+    background-color: var(--damso-color-bg-sub);
+    border-top: 1px solid var(--damso-color-border);
+}
+
+.damso-price-info__item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.damso-price-info__item:last-child {
+    margin-bottom: 0;
+}
+
+.damso-price-info__label {
+    font-size: 0.9rem;
+    color: var(--damso-color-text-dim);
+}
+
+.damso-price-info__value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--damso-color-primary);
+}
+
+.damso-price-info__value.setup {
+    color: var(--damso-color-accent);
+}
+
+/* =================================================================
+   4. UI Animations & Micros
+================================================================= */
+.damso-card {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.damso-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--damso-shadow-lg);
+}
+
+.damso-btn {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.damso-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
