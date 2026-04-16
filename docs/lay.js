@@ -19,7 +19,9 @@ const siteConfig = {
         overlay: 'dotted',
         image_path: './section/bg/',
         image_count: 0,
-        image_format: 'png'
+        image_format: 'png',
+        offsetX: '10rem',
+        offsetY: '10rem'
     },
 
     // 3. API & Redirects
@@ -46,6 +48,18 @@ const faintNineGlitchEffect = {
         wrapper.appendChild(this.canvas);
 
         this.ctx = this.canvas.getContext('2d', { alpha: true });
+        
+        // Cache Configuration
+        this.cacheCanvas = document.createElement('canvas');
+        this.cacheCtx = this.cacheCanvas.getContext('2d');
+        
+        this.cacheCanvasRed = document.createElement('canvas');
+        this.cacheCtxRed = this.cacheCanvasRed.getContext('2d');
+
+        this.cacheCanvasBlue = document.createElement('canvas');
+        this.cacheCtxBlue = this.cacheCanvasBlue.getContext('2d');
+
+        
         this.colorRGB = '255, 255, 255';
         this.fontSize = 1100;
 
@@ -57,8 +71,70 @@ const faintNineGlitchEffect = {
         this.handleResize();
         this.animate();
 
+        // Refresh cache after fonts are loaded to ensure correct typeface
+        if (document.fonts) {
+            document.fonts.ready.then(() => {
+                this.preRender();
+            });
+        }
+
         window.addEventListener('resize', () => this.handleResize());
     },
+
+    preRender() {
+        const dpr = window.devicePixelRatio || 1;
+        // Padding for blur
+        const pad = 100 * dpr;
+        const size = (this.fontSize + pad * 2);
+
+        this.cacheCanvas.width = size * dpr;
+        this.cacheCanvas.height = size * dpr;
+        
+        const cctx = this.cacheCtx;
+        cctx.clearRect(0, 0, this.cacheCanvas.width, this.cacheCanvas.height);
+        cctx.save();
+        cctx.scale(dpr, dpr);
+
+        const cx = size / 2;
+        const cy = size / 2;
+
+        cctx.filter = `blur(${40 * dpr}px)`;
+        
+        const gradient = cctx.createLinearGradient(
+            cx, cy - this.fontSize / 2,
+            cx, cy + this.fontSize / 2
+        );
+        gradient.addColorStop(0, `rgba(255, 255, 255, 1)`);
+        gradient.addColorStop(0.5, `rgba(255, 255, 255, 0.6)`);
+        gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
+
+        cctx.fillStyle = gradient;
+        cctx.font = `300 ${this.fontSize}px "Lato", sans-serif`;
+        cctx.textAlign = 'center';
+        cctx.textBaseline = 'middle';
+        cctx.fillText('9', cx, cy);
+        
+        cctx.restore();
+        
+        this.cacheOffset = size / 2;
+
+        // Create Red/Blue Tints from Main Cache
+        this.renderTint(this.cacheCanvasRed, this.cacheCtxRed, 'rgb(255, 50, 50)');
+        this.renderTint(this.cacheCanvasBlue, this.cacheCtxBlue, 'rgb(50, 50, 255)');
+    },
+
+    renderTint(canvas, ctx, color) {
+        canvas.width = this.cacheCanvas.width;
+        canvas.height = this.cacheCanvas.height;
+        ctx.drawImage(this.cacheCanvas, 0, 0);
+        ctx.save();
+        ctx.globalCompositeOperation = 'source-in';
+        ctx.fillStyle = color;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.restore();
+    },
+
+
 
     handleResize() {
         if (!this.canvas) return;
@@ -74,28 +150,31 @@ const faintNineGlitchEffect = {
         this.logicalWidth = rect.width;
         this.logicalHeight = rect.height;
 
+        // Get 1em in pixels
+        this.emToPx = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+
+
         this.fontSize = Math.min(1100, 600 + (rect.width * 0.25));
 
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
+
+        this.preRender();
     },
+
 
     drawNine(x, y, rgbString, alpha, offset = 0) {
         this.ctx.save();
         this.ctx.globalAlpha = alpha;
-        const dpr = window.devicePixelRatio || 1;
-        this.ctx.filter = `blur(${40 * dpr}px)`;
+        
+        // Select Cache based on color
+        let targetCache = this.cacheCanvas;
+        if (rgbString === '255, 50, 50') targetCache = this.cacheCanvasRed;
+        else if (rgbString === '50, 50, 255') targetCache = this.cacheCanvasBlue;
 
-        const gradient = this.ctx.createLinearGradient(
-            x, y - this.fontSize / 2,
-            x, y + this.fontSize / 2
-        );
-        gradient.addColorStop(0, `rgba(${rgbString}, 1)`);
-        gradient.addColorStop(0.5, `rgba(${rgbString}, 0.6)`);
-        gradient.addColorStop(1, `rgba(${rgbString}, 0)`);
-
-        this.ctx.fillStyle = gradient;
-        this.ctx.font = `300 ${this.fontSize}px "Lato", sans-serif`;
+        const drawX = x + offset - this.cacheOffset;
+        const drawY = y - this.cacheOffset;
+        const drawSize = this.cacheCanvas.width / (window.devicePixelRatio || 1);
 
         if (Math.random() > 0.9 && this.isGlitching) {
             const sliceCount = 12;
@@ -107,15 +186,17 @@ const faintNineGlitchEffect = {
                 this.ctx.beginPath();
                 this.ctx.rect(0, sliceY, this.logicalWidth, sliceH);
                 this.ctx.clip();
-                this.ctx.fillText('9', x + offset + jitterX, y);
+                this.ctx.drawImage(targetCache, drawX + jitterX, drawY, drawSize, drawSize);
                 this.ctx.restore();
             }
         } else {
-            this.ctx.fillText('9', x + offset, y);
+            this.ctx.drawImage(targetCache, drawX, drawY, drawSize, drawSize);
         }
 
         this.ctx.restore();
     },
+
+
 
     drawNoise() {
         if (!this.isGlitching || Math.random() < 0.3) return;
@@ -147,8 +228,14 @@ const faintNineGlitchEffect = {
         if (!this.canvas) return;
         this.ctx.clearRect(0, 0, this.logicalWidth, this.logicalHeight);
 
-        const x = this.logicalWidth * .7;
-        const y = this.logicalHeight * .5;
+        // Calculate Position (Center + Offset)
+        const config = siteConfig.canvas;
+        const offX = (parseFloat(config.offsetX) || 0) * this.emToPx;
+        const offY = (parseFloat(config.offsetY) || 0) * this.emToPx;
+
+        const x = (this.logicalWidth / 2) + offX;
+        const y = (this.logicalHeight / 2) + offY;
+
 
         if (this.isGlitching) {
             // 미세 진동 (Jitter)
@@ -172,7 +259,7 @@ const faintNineGlitchEffect = {
             }
         } else {
             this.drawNine(x, y, this.colorRGB, 0.30);
-            
+
             this.calmDuration--;
             if (this.calmDuration <= 0) {
                 this.isGlitching = true;
