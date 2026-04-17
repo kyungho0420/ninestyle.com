@@ -1,5 +1,6 @@
 /**
  * Nine Style - Page Refactoring V4
+ * Design Theme: Modern Minimal Matte
  */
 const siteConfig = {
     meta: {
@@ -7,7 +8,7 @@ const siteConfig = {
         type: 'page',
         mode: 'demo',
         lang: 'ko',
-        theme: true,
+        theme: 'dark', // Forced Dark for Matte feel
         scroll_smooth: true
     },
     api: {
@@ -34,10 +35,10 @@ window.waveEffect = {
     waves: [],
     animationFrameId: null,
     colors: [
-        'rgba(255, 255, 255, 0.8)',
-        'rgba(255, 255, 255, 0.6)',
-        'rgba(255, 255, 255, 0.4)',
-        'rgba(255, 255, 255, 0.2)'
+        'rgba(212, 175, 55, 0.4)',  /* Champagne Gold Subtle */
+        'rgba(212, 175, 55, 0.2)',
+        'rgba(255, 255, 255, 0.1)',
+        'rgba(255, 255, 255, 0.05)'
     ],
 
     init(container) {
@@ -74,10 +75,10 @@ window.waveEffect = {
         this.waves = [];
         const h = this.height;
         this.waves.push(
-            { y: h * 0.45, amplitude: 30, length: 0.015, speed: 0.02, color: this.colors[0] },
-            { y: h * 0.50, amplitude: 40, length: 0.01, speed: -0.025, color: this.colors[1] },
-            { y: h * 0.55, amplitude: 20, length: 0.018, speed: 0.03, color: this.colors[2] },
-            { y: h * 0.60, amplitude: 25, length: 0.02, speed: -0.015, color: this.colors[3] }
+            { y: h * 0.45, amplitude: 20, length: 0.01, speed: 0.01, color: this.colors[0] },
+            { y: h * 0.50, amplitude: 25, length: 0.008, speed: -0.015, color: this.colors[1] },
+            { y: h * 0.55, amplitude: 15, length: 0.012, speed: 0.02, color: this.colors[2] },
+            { y: h * 0.60, amplitude: 10, length: 0.015, speed: -0.01, color: this.colors[3] }
         );
     },
 
@@ -89,11 +90,11 @@ window.waveEffect = {
             this.ctx.beginPath();
             this.ctx.moveTo(0, wave.y);
             for (let x = 0; x < this.width; x++) {
-                const y = wave.y + Math.sin(x * wave.length + this.frame * wave.speed) * wave.amplitude * Math.sin(this.frame * 0.012);
+                const y = wave.y + Math.sin(x * wave.length + this.frame * wave.speed) * wave.amplitude * Math.sin(this.frame * 0.008);
                 this.ctx.lineTo(x, y);
             }
             this.ctx.strokeStyle = wave.color;
-            this.ctx.lineWidth = 2;
+            this.ctx.lineWidth = 1;
             this.ctx.stroke();
         });
 
@@ -104,8 +105,15 @@ window.waveEffect = {
 
 document.addEventListener('DOMContentLoaded', () => {
     if (window.V4) {
-        window.V4.init(siteConfig).then(app => {
+        window.V4.init(siteConfig).then(async (app) => {
             app.registerEffect('waveEffect', window.waveEffect);
+            
+            // 안정적인 텍스트 렌더링을 위해 Data.load 수동 확인 및 재적용 (옵션)
+            const currentLang = document.documentElement.lang || 'ko';
+            await app.Data.load(currentLang);
+            
+            console.log('Nine Style V4 Refactored Initialized');
         });
     }
 });
+
