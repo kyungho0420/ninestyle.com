@@ -103,6 +103,12 @@ body {
     background: hsla(35, 25%, 55%, 0.1);
 }
 
+.damso-nav__buttons a,
+.damso-nav__buttons button,
+.damso-nav__buttons .material-symbols-outlined {
+    color: var(--damso-color-primary) !important;
+}
+
 /* --- Card Base & Variations --- */
 .damso-card {
     position: relative;
@@ -114,10 +120,23 @@ body {
     overflow: visible; /* Required for Badge placement */
 }
 
-/* Brand Borders */
-.damso-card--google { border-color: hsla(217, 89%, 61%, 0.4) !important; border-width: 1.5px !important; }
-.damso-card--cloudflare { border-color: hsla(27, 90%, 54%, 0.4) !important; border-width: 1.5px !important; }
-.damso-card--gemini { border-color: hsla(251, 100%, 73%, 0.4) !important; border-width: 1.5px !important; }
+/* Brand Borders (Gradient) */
+.damso-card--google,
+.damso-card--gemini { 
+    border: 1.5px solid transparent !important;
+    background-image: linear-gradient(var(--damso-color-bg-card), var(--damso-color-bg-card)), 
+                      linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853) !important;
+    background-origin: border-box !important;
+    background-clip: padding-box, border-box !important;
+}
+
+.damso-card--cloudflare { 
+    border: 1.5px solid transparent !important;
+    background-image: linear-gradient(var(--damso-color-bg-card), var(--damso-color-bg-card)), 
+                      linear-gradient(to right, #F38020, #FAAD39) !important;
+    background-origin: border-box !important;
+    background-clip: padding-box, border-box !important;
+}
 
 /* Horizontal Card Layout Fix */
 .damso-card--horizontal {
