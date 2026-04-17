@@ -18,6 +18,11 @@
     --damso-color-text-main: hsl(0, 0%, 90%);
     --damso-color-text-dim: hsl(0, 0%, 60%);
     --damso-color-border: hsla(0, 0%, 100%, 0.08);
+
+    /* Brand Accent Colors */
+    --color-google: #4285F4;
+    --color-cloudflare: #F38020;
+    --color-gemini: #8E75FF;
 }
 
 /* =================================================================
@@ -48,12 +53,22 @@ body {
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 3rem;
-    color: var(--damso-color-primary);
+    color: var(--damso-color-primary) !important;
 }
 
 .damso-section h2 .material-symbols-outlined {
     font-size: 1.2rem;
-    opacity: 0.5;
+    opacity: 0.7;
+    color: var(--damso-color-primary) !important;
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+}
+
+/* Icons Optimization */
+.material-symbols-outlined.coffee {
+    font-size: 2.8rem !important;
+    opacity: 0.9;
     color: var(--damso-color-primary);
 }
 
@@ -80,31 +95,19 @@ body {
     color: #fff;
 }
 
-.damso-header__description {
-    font-size: 1.1rem;
-    color: var(--damso-color-text-dim);
-    font-weight: 300;
-    letter-spacing: 0.2em;
-}
-
-/* --- Navigation --- */
+/* --- Navigation & Lang Switcher --- */
 .damso-nav {
     border-bottom: 1px solid var(--damso-color-border);
     backdrop-filter: blur(10px);
     background: hsla(220, 10%, 7%, 0.8);
 }
 
-.damso-nav__logo {
-    color: var(--damso-color-primary);
-    font-size: 1.1rem;
-}
-
 .damso-lang-switcher button {
     background: transparent;
     border: 1px solid var(--damso-color-border);
     color: var(--damso-color-text-dim);
-    padding: 0.4rem 0.8rem;
-    font-size: 0.75rem;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.7rem;
     cursor: pointer;
     transition: all 0.3s ease;
     border-radius: 2px;
@@ -113,176 +116,120 @@ body {
 .damso-lang-switcher button.active {
     border-color: var(--damso-color-primary);
     color: var(--damso-color-primary);
+    background: hsla(35, 25%, 55%, 0.1);
 }
 
-/* --- Card Variations --- */
+/* --- Card Base & Variations --- */
 .damso-card {
+    position: relative;
     background-color: var(--damso-color-bg-card) !important;
     border: 1px solid var(--damso-color-border) !important;
     border-radius: var(--damso-border-radius);
     padding: 2.5rem;
     box-shadow: none !important;
+    overflow: visible; /* Required for Badge placement */
 }
 
-.damso-card__title {
-    color: var(--damso-color-primary);
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-}
+/* Brand Borders */
+.damso-card--google { border-color: hsla(217, 89%, 61%, 0.4) !important; border-width: 1.5px !important; }
+.damso-card--cloudflare { border-color: hsla(27, 90%, 54%, 0.4) !important; border-width: 1.5px !important; }
+.damso-card--gemini { border-color: hsla(251, 100%, 73%, 0.4) !important; border-width: 1.5px !important; }
 
-.damso-card__description {
-    color: var(--damso-color-text-dim);
-    font-size: 0.95rem;
-}
-
-/* --- Portfolio --- */
-.damso-gallery-link {
-    text-decoration: none;
-}
-
-.damso-card__image-wrapper {
-    margin: -2.5rem -2.5rem 1.5rem -2.5rem;
+/* Horizontal Card Layout Fix */
+.damso-card--horizontal {
+    display: flex;
+    gap: 2.5rem;
+    align-items: stretch;
+    padding: 0;
     overflow: hidden;
 }
 
-.damso-card__image {
-    width: 100%;
+@media (max-width: 992px) {
+    .damso-card--horizontal {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+.damso-card--horizontal .damso-card__image-wrapper {
+    flex: 0 0 40%;
+    margin: 0;
     height: auto;
-    filter: grayscale(100%) brightness(0.8);
-    transition: all 0.5s ease;
+    min-height: 300px;
 }
 
-.damso-card:hover .damso-card__image {
-    filter: grayscale(0%) brightness(1);
-    transform: scale(1.05);
-}
-
-/* --- Product Specs Table --- */
-.damso-specs-table {
-    margin-top: 2rem;
+.damso-card--horizontal .damso-card__image {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.damso-specs-category {
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--damso-color-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    padding-bottom: 0.3rem;
-    margin-top: 2rem;
-    border-bottom: 1px solid var(--damso-color-border);
-    opacity: 0.7;
-}
-
-.damso-specs-item {
+.damso-card--horizontal .damso-card__content {
+    flex: 1;
+    padding: 2.5rem;
     display: flex;
-    justify-content: space-between;
-    padding: 0.8rem 0;
-    font-size: 0.9rem;
-    border-bottom: 1px solid hsla(0, 0%, 100%, 0.03);
+    flex-direction: column;
+    justify-content: center;
 }
 
-.damso-specs-label {
-    color: var(--damso-color-text-dim);
-}
-
-.damso-specs-value {
-    color: var(--damso-color-text-main);
-    font-weight: 400;
-}
-
-/* --- Price Info --- */
-.damso-price-info {
-    margin: 2rem -2.5rem -2.5rem -2.5rem;
-    padding: 2rem 2.5rem;
-    background-color: hsla(0, 0%, 100%, 0.02);
-    border-top: 1px solid var(--damso-color-border);
-}
-
-.damso-price-info__label {
-    font-size: 0.8rem;
-    color: var(--damso-color-text-dim);
+/* Card Badge (Tag style on Right) */
+.damso-card__badge {
+    position: absolute;
+    top: 2rem;
+    right: -1px;
+    background-color: var(--damso-color-primary);
+    color: #000;
+    padding: 0.35rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
+    border-radius: 2px 0 0 2px;
+    z-index: 5;
+    box-shadow: -2px 2px 5px rgba(0,0,0,0.2);
 }
 
-.damso-price-info__value {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--damso-color-text-main);
+/* --- Portfolio --- */
+.damso-card__image-wrapper {
+    margin: -2.5rem -2.5rem 1.5rem -2.5rem;
+    overflow: hidden;
+    position: relative;
 }
 
-.damso-price-info__value.setup {
-    color: var(--damso-color-primary);
+/* --- Price Info (Flush to sides) --- */
+.damso-price-info {
+    margin: 2.5rem -2.5rem -2.5rem -2.5rem;
+    padding: 2rem 2.5rem;
+    background-color: hsla(0, 0%, 100%, 0.05);
+    border-top: 1px solid var(--damso-color-border);
 }
 
 /* --- FAQ --- */
-.damso-faq-container {
-    margin-top: 4rem;
-    padding-top: 4rem;
-    border-top: 1px solid var(--damso-color-border);
-}
-
-.damso-faq-title {
-    text-align: center;
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
-    color: var(--damso-color-primary);
-}
-
-.damso-faq-item {
-    padding: 1.5rem 0;
-    border-bottom: 1px solid var(--damso-color-border);
-}
-
-.damso-faq-item__question {
-    font-weight: 600;
-    color: var(--damso-color-text-main);
-    margin-bottom: 0.5rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-}
-
 .damso-faq-item__answer {
     color: var(--damso-color-text-dim);
     font-size: 0.95rem;
-    line-height: 1.6;
-    padding-left: 1rem;
+    line-height: 1.7;
+    padding: 0.75rem 0 1.25rem 2rem; /* Spacing from border-left */
     border-left: 2px solid var(--damso-color-primary);
+    margin-left: 0.5rem;
 }
 
 /* =================================================================
    4. UI Animations & Micros
  ================================================================= */
-.damso-card {
-    transition: all 0.3s ease;
-}
-
 .damso-btn {
     background-color: var(--damso-color-primary);
     color: #000;
     border-radius: 2px;
-    padding: 1rem 2rem;
+    padding: 1rem 2.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    font-size: 0.85rem;
+    font-weight: 700;
 }
 
 .damso-btn:hover {
     background-color: #fff;
     color: #000;
+    transform: translateY(-2px);
 }
-
-.js-fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.8s ease-out;
-}
-
-.js-fade-in.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
